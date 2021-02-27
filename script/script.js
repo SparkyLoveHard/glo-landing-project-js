@@ -1,9 +1,10 @@
-'use strict';
 window.addEventListener('DOMContentLoaded', () => {
-	const countTimer = deadline => {
-		const timerHours = document.getElementById('timer-hours');
-		const timerMinutes = document.getElementById('timer-minutes');
-		const timerSeconds = document.getElementById('timer-seconds');
+	'use strict';
+
+	function countTimer(deadline) {
+		const timerHours = document.getElementById('timer-hours'),
+			timerMinutes = document.getElementById('timer-minutes'),
+			timerSeconds = document.getElementById('timer-seconds');
 
 		const getTimeRemaining = () => {
 			const dateStop = new Date(deadline).getTime(),
@@ -14,16 +15,15 @@ window.addEventListener('DOMContentLoaded', () => {
 				hours = Math.floor(timeRemaining / 3600);
 
 			return {
-                'timeRemaining': timeRemaining,
-                'hours': hours,
-                'minutes': minutes,
-                'seconds': seconds
+				seconds,
+				minutes,
+				hours,
+				timeRemaining
 			};
 		};
 
 		const updateClock = () => {
 			const timer = getTimeRemaining();
-
 			if (timer.timeRemaining <= 0) {
 				timerHours.textContent = '00';
 				timerMinutes.textContent = '00';
@@ -41,11 +41,11 @@ window.addEventListener('DOMContentLoaded', () => {
 			}
 		};
 		let idInterval;
-        if(updateClock !== false) {
-            idInterval = setInterval(updateClock, 1000);
-        } else {
-            clearInterval(idInterval);
-        }
-	};
+		if(updateClock() !== false) {
+			idInterval = setInterval(updateClock, 1000);
+		} else {
+			clearInterval(idInterval);
+		}
+	}
 	countTimer('25 jul 2021');
 });
