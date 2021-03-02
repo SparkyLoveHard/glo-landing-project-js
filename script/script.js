@@ -84,16 +84,39 @@ window.addEventListener('DOMContentLoaded', () => {
 		const popupClose = document.querySelector('.popup-close');
 		const popupContent = popup.querySelector('.popup-content');
 		
+		let countFrame = 0;
+
+		function animationModal() {
+
+			let animationId = requestAnimationFrame(animationModal);
+
+			countFrame++;
+			if (countFrame < 50) {
+				popupContent.style.top = countFrame + 200 + 'px';
+			} else {
+				countFrame = 0;
+				cancelAnimationFrame(animationId);
+			}
+		}
+
+
 		popupBtn.forEach(function(item) {
 			item.addEventListener('click', function() {
 				popup.style.display = 'block';
+				if(document.documentElement.clientWidth > 768) {
+					// animation function
+					animationModal();
+				}
 			});
+			
 		});
 
 		popupClose.addEventListener('click', function() {
 			popup.style.display = 'none';
 		});
 
+
+		
 	}
 
 	togglePopUp();
