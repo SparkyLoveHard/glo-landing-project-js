@@ -271,4 +271,83 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	slider();
 	// конец слайдера
+
+	// Секция наша команда
+	const imgsOurCommand = document.querySelectorAll('.command__photo');
+
+	function changeImg() {
+		imgsOurCommand.forEach(function(e) {
+
+			let imgFirst = e.src;
+
+			e.addEventListener('mouseenter', function() {
+				if(e.tagName === 'IMG') {
+					e.src = e.dataset.img;
+				} 
+			});
+
+			e.addEventListener('mouseleave', function() {
+				e.src = imgFirst;
+			});
+		});
+	}
+	
+	changeImg();
+	// Конец секции наша команда 
+
+	// Секция Калькулятор
+	const calcBlock = document.querySelector('.calc-block'); 
+	const calcItem = calcBlock.querySelectorAll('input');
+	
+	calcItem.forEach(function(e) {
+		e.addEventListener('input', function() {
+			e.value = e.value.replace(/\D/, '');
+		});
+	});
+
+	// Конец Секции калькулятор
+
+	// Секция оставить заявку
+	const nameForms = document.querySelectorAll('input[placeholder="Ваше имя"]');
+	const messageForms = document.querySelectorAll('input[placeholder="Ваше сообщение"]');
+	const mailForms = document.querySelectorAll('input[placeholder="E-mail"]');
+	const numberPhoneForms = document.querySelectorAll('input[placeholder="Номер телефона"]');
+	
+	function checkBlur(e) {
+		if (e.target.matches('input[placeholder="Ваше имя"]')) {
+			e.target.value = e.target.value[0].toUpperCase() + e.target.value.substr(1).toLowerCase();
+		}
+		e.target.value = e.target.value.replace(/-+/gi, '-').trim(); // убирем множество тире
+		e.target.value = e.target.value.replace(/\s+/gi, ' ').trim(); // убираем пробелы
+	}
+
+	nameForms.forEach(function(e) {
+		e.addEventListener('input', function() {
+			e.value = e.value.replace(/[^А-яа-яЁё-\s]/gi, '');
+		});
+		e.addEventListener('focusout', checkBlur);
+	});
+
+	messageForms.forEach(function(e) {
+		e.addEventListener('input', function() {
+			e.value = e.value.replace(/[^А-Яа-я\- ]/g, '');
+		});
+		e.addEventListener('focusout', checkBlur);
+	});
+
+	mailForms.forEach(function(e) {
+		e.addEventListener('input', function() {
+			e.value = e.value.replace(/[^A-Za-z\-@_'`!\.\*]/g, ''); 
+		});
+		e.addEventListener('focusout', checkBlur);
+	});
+
+	numberPhoneForms.forEach(function(e) {
+		e.addEventListener('input', function() {
+			e.value = e.value.replace(/[^\d()-]/gi, '');
+		});
+		e.addEventListener('focusout', checkBlur);
+	});
+
+	// конец секции оставить заявку
 });
