@@ -386,7 +386,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			// else {
 			// 	total = 0;
 			// }
-			totalValue.textContent = total;
+			totalValue.textContent = parseInt(total);
 		}
 
 		calcBlock.addEventListener('change', function(e) {
