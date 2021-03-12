@@ -344,7 +344,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	numberPhoneForms.forEach(function(e) {
 		e.addEventListener('input', function() {
-			e.value = e.value.replace(/[^\d()+/-]/gi, '');
+			e.value = e.value.replace(/[^\d()^+/-]/gi, '');
 		});
 		e.addEventListener('focusout', checkBlur);
 	});
