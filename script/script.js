@@ -344,7 +344,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	numberPhoneForms.forEach(function(e) {
 		e.addEventListener('input', function() {
-			e.value = e.value.replace(/[^\d()-]/gi, '');
+			e.value = e.value.replace(/[^\d()+/-]/gi, '');
 		});
 		e.addEventListener('focusout', checkBlur);
 	});
@@ -419,46 +419,76 @@ window.addEventListener('DOMContentLoaded', () => {
 		const successMessage = 'Спасибо! Мы скоро с вами свяжемся';
 
 		const form = document.getElementById('form1');
+		const form2 = document.getElementById('form2');
+		const form3 = document.getElementById('form3');
 
 		const statusMessage = document.createElement('div');
 		statusMessage.style.cssText = 'font-size: 2rem';
 
-		form.addEventListener('submit', (event) => {
-			event.preventDefault();
-			form.appendChild(statusMessage);
-
+		function postData(body, outputData, errorData) {
 			const request = new XMLHttpRequest();
-			request.open('POST', './server.php');
-			// request.setRequestHeader('Content-Type', 'multipart/form-data');
-			request.setRequestHeader('Content-Type', 'application/json');
+		
 			request.addEventListener('readystatechange', () => {
-				statusMessage.textContent = loadMessage;
-
 				if(request.readyState !== 4) {
 					return;
 				} 
 				if (request.status === 200) {
-					statusMessage.textContent = successMessage;
-					console.log(statusMessage.textContent);
+					outputData();
+					// console.log(statusMessage.textContent);
 				} else {
-					statusMessage.textContent = errorMessage;
+					errorData(request.status);
+					// statusMessage.textContent = errorMessage;
 				}
 			});
+			request.open('POST', './server.php');
+			// request.setRequestHeader('Content-Type', 'multipart/form-data');
+			request.setRequestHeader('Content-Type', 'application/json');
+			request.send(JSON.stringify(body));
+		}
+		
+		function clearInputs(targetInput) {
+			targetInput.querySelectorAll('input').forEach(function(item) {
+				item.value = '';
+			});
+		}
 
+		function formPostData (event) {
+			event.preventDefault();
+			form.appendChild(statusMessage);
+			statusMessage.textContent = loadMessage;
 			const formData = new FormData(form);
 			// извлекаем данные из формдата в боди
 			let body = {};
-			// for (let value of formData.entries()) {
-			// 	console.log(value);
-			// 	body[value[0]] = value[1];
-			// }
+
 			formData.forEach(function(value, key) {
 				body[key] = value;
 			});
-			console.log(body);
-			request.send(JSON.stringify(body));
- 			// request.send(formData);
+
+			postData(
+				body, 
+				function() {
+					statusMessage.textContent = successMessage;
+					clearInputs(event.target);
+				}, 
+				function(error) {
+					statusMessage.textContent = errorMessage;
+					console.log(error);
+				}
+			);
+		}
+		
+
+
+		form.addEventListener('submit', function(e) {
+			formPostData(e);
 		});
+		form2.addEventListener('submit', function(e) {
+			formPostData(e);
+		});
+		form3.addEventListener('submit', function(e) {
+			formPostData(e);
+		});
+
 	};
 
 	sendForm();
