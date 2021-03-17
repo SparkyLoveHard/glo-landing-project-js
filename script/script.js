@@ -422,6 +422,12 @@ window.addEventListener('DOMContentLoaded', () => {
 		const form2 = document.getElementById('form2');
 		const form3 = document.getElementById('form3');
 
+		function clearInputs() {
+			let allFormInputs = document.querySelectorAll('input');
+			allFormInputs.forEach(function(item) {
+				item.value = '';
+			});
+		}
 
 		const statusMessage = document.createElement('div');
 		statusMessage.style.cssText = `
@@ -429,25 +435,24 @@ window.addEventListener('DOMContentLoaded', () => {
 			color: red;
 		`;
 
-		function postData(body, outputData, errorData) {
-			const request = new XMLHttpRequest();
-		
-			request.addEventListener('readystatechange', () => {
-				if(request.readyState !== 4) {
-					return;
-				} 
-				if (request.status === 200) {
-					outputData();
-					// console.log(statusMessage.textContent);
-				} else {
-					errorData(request.status);
-					// statusMessage.textContent = errorMessage;
-				}
+		function postData(body) {
+			return new Promise(function(resolve, reject) {
+				const request = new XMLHttpRequest();
+			
+				request.addEventListener('readystatechange', () => {
+					if(request.readyState !== 4) {
+						return;
+					} 
+					if (request.status === 200) {
+						resolve();
+					} else {
+						reject(request.status);
+					}
+				});
+				request.open('POST', './server.php');
+				request.setRequestHeader('Content-Type', 'application/json');
+				request.send(JSON.stringify(body));
 			});
-			request.open('POST', './server.php');
-			// request.setRequestHeader('Content-Type', 'multipart/form-data');
-			request.setRequestHeader('Content-Type', 'application/json');
-			request.send(JSON.stringify(body));
 		}
 		
 		function formPostData(event, form) {
@@ -463,64 +468,62 @@ window.addEventListener('DOMContentLoaded', () => {
 				body[key] = value;
 			});
 
-			postData(body, function() {
-				console.log(body);
-				statusMessage.textContent = successMessage;
-			}, function(error) {
-				statusMessage.textContent = errorMessage;
-				console.error(error);
-			});
-		}	
-		// очистка инпутов 
-		function clearInputs(form) {
-			let allFormInputs = form.querySelectorAll('input');
-			allFormInputs.forEach(function(item) {
-				item.value = '';
-			});
-		}
+			clearInputs();
 
+			postData(body)
+				.then(function() {
+					statusMessage.textContent = successMessage;
+				})
+				.catch(function(error) {
+					statusMessage.textContent = errorMessage;
+					console.error(error);
+				});
+		}	
+		
 		// хедер форма
 		form1.addEventListener('submit', (event) => {
-			event.preventDefault();
 			form1.appendChild(statusMessage);
 			let allFormInputs = form1.querySelectorAll('input');
 			console.log(allFormInputs[0].value.length);
-			if(allFormInputs[0].value.length < 2 || allFormInputs[1].value.length < 3 || allFormInputs[2].value.length > 12 || allFormInputs[2].value.length < 8) {
+			if(allFormInputs[0].value.length < 2 || allFormInputs[1].value.length < 3 || 
+				allFormInputs[2].value.length > 12 || allFormInputs[2].value.length < 8) {
 				statusMessage.textContent = 'Введите корректные данные!!!';
 			} else {
 				formPostData(event, form1);
 			}
-			clearInputs(form1);
+			// clearInputs(form1);
         });
 
 		// футер форма
 		form2.addEventListener('submit', function(event) {
-			event.preventDefault();
 			form2.appendChild(statusMessage);
 			let allFormInputs = form2.querySelectorAll('input');
 			console.log(allFormInputs[0].value.length);
-			if(allFormInputs[0].value.length < 2 || allFormInputs[1].value.length < 3 || allFormInputs[2].value.length < 8 ||allFormInputs[2].value.length > 12 || allFormInputs[3].value.length < 10) {
+			if(allFormInputs[0].value.length < 2 || allFormInputs[1].value.length < 3 || 
+				allFormInputs[2].value.length < 8 ||allFormInputs[2].value.length > 12 || 
+				allFormInputs[3].value.length < 10) {
 				statusMessage.textContent = 'Введите корректные данные!!!';
 			} else {
 				formPostData(event, form2);
 			}
-			clearInputs(form2);
+			// clearInputs(form2);
 		});
 
 		// модальное окно форма
 		form3.addEventListener('submit', function(event) {
-			event.preventDefault();
 			form3.appendChild(statusMessage);
 			let allFormInputs = form3.querySelectorAll('input');
 			console.log(allFormInputs[0].value.length);
-			if(allFormInputs[0].value.length < 2 || allFormInputs[1].value.length < 8 || allFormInputs[1].value.length > 12 || allFormInputs[2].value.length < 3) {
+			if(allFormInputs[0].value.length < 2 || allFormInputs[1].value.length < 8 || 
+				allFormInputs[1].value.length > 12 || allFormInputs[2].value.length < 3) {
 				statusMessage.textContent = 'Введите корректные данные!!!';
 			} else {
 				formPostData(event, form3);
 			}
-			clearInputs(form3);
+			// clearInputs(form3);
 		});
 	}
 
 	sendForm();
+
 });
