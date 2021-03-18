@@ -89,20 +89,18 @@ function sendForm() {
         clearInputs();
 
         const popup = document.querySelector('.popup');
-        const popupContent = popup.querySelector('.popup-content');
 
         postData(body)
             .then(function(response) {
                 if(response.status !== 200) {
                     throw new Error('status network not 200.');
                 }
-                console.log(response);
-
-                setTimeout(function() {
-                    popup.style.display = 'none';
-                    // popupContent.style.display = 'none';
-                }, 3000);
                 statusMessage.textContent = successMessage;
+                setTimeout(function() {
+                    statusMessage.textContent = '';
+                    popup.style.display = 'none'; 
+                }, 5000);
+               
             })
             .catch(function(error) {
                 statusMessage.textContent = errorMessage;
@@ -125,7 +123,6 @@ function sendForm() {
 
     // футер форма
     form2.addEventListener('submit', function(event) {
-        
         event.preventDefault();
         form2.appendChild(statusMessage);
         let allFormInputs = form2.querySelectorAll('input');
