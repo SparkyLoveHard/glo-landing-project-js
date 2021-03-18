@@ -104,7 +104,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n\n\nfunction tabs() {\n  var tabHeader = document.querySelector('.service-header');\n  var tab = tabHeader.querySelectorAll('.service-header-tab');\n  var tabContent = document.querySelectorAll('.service-tab'); // в функцию передаем индекс таба\n\n  function toggleTabContent(index) {\n    for (var i = 0; i < tabContent.length; i++) {\n      if (index === i) {\n        tab[i].classList.add('active');\n        tabContent[i].classList.remove('d-none');\n      } else {\n        tab[i].classList.remove('active');\n        tabContent[i].classList.add('d-none');\n      }\n    }\n  }\n\n  tabHeader.addEventListener('click', function (event) {\n    var target = event.target; // closest() проверяет у элемента селектор\n\n    target = target.closest('.service-header-tab');\n\n    if (target) {\n      tab.forEach(function (item, i) {\n        if (item === target) {\n          toggleTabContent(i);\n        }\n      });\n    }\n  });\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (tabs);\n\n//# sourceURL=webpack://glo-landing-project-js/./src/modules/tabs.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\n\n\nfunction tabs() {\n  var tabHeader = document.querySelector('.service-header');\n  var tab = tabHeader.querySelectorAll('.service-header-tab');\n  var tabContent = document.querySelectorAll('.service-tab');\n  tabContent[1].classList.add('d-none');\n  tabContent[2].classList.add('d-none');\n\n  function toggleTabContent(index) {\n    for (var i = 0; i < tab.length; i++) {\n      if (index === i) {\n        tab[i].classList.add('active');\n        tabContent[i].classList.remove('d-none');\n      } else {\n        tabContent[i].classList.add('d-none');\n        tab[i].classList.remove('active');\n      }\n    }\n  }\n\n  tabHeader.addEventListener('click', function (event) {\n    var target = event.target;\n    target = target.closest('.service-header-tab');\n\n    if (target) {\n      tab.forEach(function (item, i) {\n        if (item === target) {\n          toggleTabContent(i);\n        }\n      });\n    }\n  });\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (tabs);\n\n//# sourceURL=webpack://glo-landing-project-js/./src/modules/tabs.js?");
 
 /***/ }),
 
@@ -528,7 +528,7 @@ eval("var map = {\n\t\"./log\": \"./node_modules/webpack/hot/log.js\"\n};\n\n\nf
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("f9d56d18279d86a1a469")
+/******/ 		__webpack_require__.h = () => ("905d35a0acee23a2006c")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/global */
