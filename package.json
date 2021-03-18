@@ -4,21 +4,26 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack --config webpack.prod.config.js",
+    "dev": "webpack serve --config webpack.dev.config.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SparkyLoveHard/glo-landing-project-js.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ilya Grebenshikov",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SparkyLoveHard/glo-landing-project-js/issues"
   },
   "homepage": "https://github.com/SparkyLoveHard/glo-landing-project-js#readme",
   "devDependencies": {
+    "@babel/core": "^7.13.10",
+    "@babel/preset-env": "^7.13.10",
+    "babel-loader": "^8.2.2",
     "webpack": "^5.26.3",
-    "webpack-cli": "^4.5.0"
+    "webpack-cli": "^4.5.0",
+    "webpack-dev-server": "^3.11.2"
   }
 }
